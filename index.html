@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Selina's Graduation Surprise 🎓</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:radial-gradient(circle at top,#4b176b,#120018 65%);color:#fff;min-height:100vh;overflow:hidden}
+#locked,#celebration{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px}
+.card{max-width:720px;width:100%;padding:34px 25px;border:1px solid rgba(255,255,255,.22);border-radius:28px;background:rgba(255,255,255,.09);backdrop-filter:blur(12px);box-shadow:0 20px 70px #0008}
+.cap{font-size:70px;animation:float 2.5s infinite ease-in-out}
+h1{font-size:clamp(2.2rem,8vw,4.8rem);margin:12px 0;background:linear-gradient(90deg,#ffd86b,#fff,#ff8bd8);-webkit-background-clip:text;color:transparent}
+h2{color:#ffd86b;margin-bottom:12px}
+p{line-height:1.8;color:#eee}
+.count{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:25px 0}
+.box{min-width:70px;padding:12px;border-radius:14px;background:#0005}
+.box b{display:block;font-size:1.6rem}.box small{color:#ccc}
+button{border:0;border-radius:30px;padding:14px 26px;margin-top:18px;background:linear-gradient(90deg,#ff4f9a,#884cff);color:#fff;font-weight:bold;cursor:pointer}
+#celebration{display:none}
+.photo{width:min(310px,85vw);height:390px;object-fit:cover;border-radius:22px;border:4px solid #ffd86b;box-shadow:0 0 45px #ffb8df66;margin:15px auto}
+.flower{position:fixed;top:-30px;font-size:24px;animation:fall linear forwards;pointer-events:none}
+.confetti{position:fixed;top:-20px;width:9px;height:16px;animation:fall linear forwards;pointer-events:none}
+@keyframes float{50%{transform:translateY(-14px)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.1}}
+@media(max-width:500px){.card{padding:27px 18px}.photo{height:350px}}
+</style>
+</head>
+<body>
+
+<section id="locked">
+  <div class="card">
+    <div class="cap">🔒🎓</div>
+    <h1>Selina's Surprise</h1>
+    <p>A special graduation surprise is waiting for you.</p>
+    <p style="margin-top:12px">It unlocks on <strong>28 November 2026 at 1:00 AM</strong>.</p>
+    <div class="count">
+      <div class="box"><b id="d">0</b><small>Days</small></div>
+      <div class="box"><b id="h">0</b><small>Hours</small></div>
+      <div class="box"><b id="m">0</b><small>Minutes</small></div>
+      <div class="box"><b id="s">0</b><small>Seconds</small></div>
+    </div>
+    <p>Come back when the clock reaches zero. ❤️</p>
+  </div>
+</section>
+
+<section id="celebration">
+  <div class="card">
+    <div class="cap">🎓✨</div>
+    <h1>Congratulations, Selina!</h1>
+    <img class="photo" src="selina.jpg" alt="Selina">
+    <p>To <strong>Selina Malemba</strong> — congratulations on your graduation! 🎓</p>
+    <p style="margin-top:12px">Your hard work, determination and journey have brought you to this beautiful moment. May this achievement open the door to an amazing future.</p>
+    <p style="margin-top:12px"><strong>I'm so proud of you. ❤️</strong></p>
+    <button onclick="showVideo()">🎵 Play Celebration Music</button>
+    <div id="videoWrap" style="display:none;margin-top:20px;">
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/XRzuC5J3Ado?rel=0" title="Congratulations Celebration Music" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:18px;max-width:600px;"></iframe>
+    </div>
+  </div>
+</section>
+
+<script>
+const unlock = new Date("2026-11-28T01:00:00+03:00").getTime();
+
+function update(){
+  const now=Date.now(), x=unlock-now;
+  if(x<=0){document.getElementById("locked").style.display="none";document.getElementById("celebration").style.display="flex";celebrate();return;}
+  d.textContent=Math.floor(x/86400000);
+  h.textContent=Math.floor(x%86400000/3600000);
+  m.textContent=Math.floor(x%3600000/60000);
+  s.textContent=Math.floor(x%60000/1000);
+}
+setInterval(update,1000); update();
+
+function showVideo(){
+  const v=document.getElementById("videoWrap");
+  v.style.display="block";
+  v.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function celebrate(){
+  for(let i=0;i<70;i++){
+    setTimeout(()=>{
+      const e=document.createElement("div");
+      e.className=Math.random()>.45?"flower":"confetti";
+      e.textContent=e.className==="flower"?(Math.random()>.5?"🌸":"🌺"):"";
+      if(e.className==="confetti"){e.style.background="hsl("+Math.random()*360+",90%,65%)";}
+      e.style.left=Math.random()*100+"vw";
+      e.style.animationDuration=(3+Math.random()*5)+"s";
+      document.body.appendChild(e);
+      setTimeout(()=>e.remove(),9000);
+    },i*70);
+  }
+}
+</script>
+</body>
+</html>
